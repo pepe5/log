@@ -1,0 +1,2 @@
+def breadthFiles p; e = (Dir .new p) .entries; e .select {|f| !File.directory?f} .each {|f| puts p+'/'+f}; puts '---'; e .reject {|d| (d=~%r(\.$|\.\.$)) !=nil} .select {|d| File.directory?d} .each {|d| breadth p+'/'+d} end; breadth '.'
+
