@@ -1,0 +1,8 @@
+2009-09-02 17:38:11.967│ Script started on Wed Sep 2 17:38:11 2009
+2009-09-02 17:38:12.275│ //root/text/log/test.out
+2009-09-02 17:38:21.827│ [root@andLinux test.out]# TERM=ansi; PS1='script:> '; stty cols 999 
+2009-09-02 17:38:21.907│ //root/text/log/test.out
+2009-09-02 17:38:53.898│ script:> dtach -A session.dtach -z bash
+2009-09-02 17:38:53.948│ [H[J//root/text/log/test.out
+2009-09-02 17:39:04.558│ [root@andLinux test.out]# TERM=ansi; PS1='session:> '; stty cols 999 
+2009-09-02 17:39:04.618│ //root/text/log/test.out

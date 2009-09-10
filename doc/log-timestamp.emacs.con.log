@@ -1,0 +1,66 @@
+[root@andLinux (D)]# cd ../..
+[root@andLinux log]# ci log-timestamp.sh
+RCS/log-timestamp.sh,v  <--  log-timestamp.sh
+enter description, terminated with single '.' or end of file:
+NOTE: This is NOT the log message!
+>> 1st ver
+>> .
+initial revision: 1.1
+done
+
+[root@andLinux log]# co log-timestamp.sh
+RCS/log-timestamp.sh,v  -->  log-timestamp.sh
+revision 1.1
+done
+
+
+[root@andLinux log]# pushd test.out
+~/text/log/test.out ~/text/log
+
+[root@andLinux test.out]# dtach -A logger.dtach -r none -z bash
+
+[root@andLinux test.out]# TERM=ansi; PS1='logger:> '; stty cols 999 
+logger:> mkfifo logger.fifo
+mkfifo: cannot create fifo `logger.fifo': File exists
+
+logger:> bash ../log-timestamp.sh 
+ logger: restarted at:2009-09-02T17:37:38-0400..
+
+logger:> script -f logger.fifo
+Script started, file is logger.fifo
+
+[root@andLinux test.out]# TERM=ansi; PS1='script:> '; stty cols 999 
+script:> dtach -A session.dtach -z bash
+
+non> dtach -A session.dtach -z bash
+
+session:> date -Is
+2009-09-03T10:39:57-0400
+
+session:> date -Is
+2009-09-03T11:35:03-0400
+
+
+
+
+                                                                                                                    
+[detached]
+non> 
+non> dtach -A session.dtach -z bash
+
+session:> 
+
+cd
+session:> pwd
+/root
+session:> cd text/log/.test.out/
+session:> date -Is
+2009-09-03T11:36:58-0400
+
+session:> 2009-09-03T11:35:33-0400
+bash: 2009-09-03T11:35:33-0400: command not found
+
+session:> date -Is
+2009-09-03T11:37:40-0400
+
+session:> 

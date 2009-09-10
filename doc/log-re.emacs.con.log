@@ -1,0 +1,407 @@
+1: tmp>$ pushd /home/kraljo/small-projects/cr15282-20-digits/                                                       
+[EOF - dtach terminating]20-digits ~/tmp
+noD:titan.sc>$ noD:titan.sc>$ 
+1: cr15282-20-digits>$ dtach -a holly.sc/logger.dtach -z
+
+status: TTT>  Syntax error in command ><
+status: TTT>  Use >help< for help or >exit< for exit.
+status: 
+status: TTT> Enter command:
+                                                                                                                    
+[detached]
+
+NON tmp>$ ps afwux | grep -i logger.dtach
+kraljo   10096  0.0  0.1  70160   992 pts/5    S+   12:14   0:00  |           \_ grep -i logger.dtach
+tester    7088  0.0  0.0   2048   296 ?        Ss   Mar05   0:00 dtach -c ./logger.dtach -z bash
+kraljo   20011  0.0  0.1   2048   512 ?        Ss   Aug30   0:04 dtach -c 1.logger.dtach -r none -z bash
+kraljo   10061  0.0  0.0   1912   488 pts/14   S+   12:10   0:00      \_ dtach -a holly.sc/logger.dtach -z
+kraljo   21746  0.0  0.1   2048   512 ?        Ss   Aug30   0:10 dtach -A logger.dtach -r none -z bash
+kraljo   20600  0.0  0.1   2048   512 ?        Ss   Aug31   0:00 dtach -A logger.dtach -z bash
+
+NON tmp>$ p1=holly.sc
+NON tmp>$ echo 1: $p1
+1: holly.sc
+
+>$ pushd $p1
+NON tmp>$ ps afwux | grep -i $p1/logger.dtach | grep -v grep
+kraljo   10061  0.0  0.0   1912   488 pts/14   S+   12:10   0:00      \_ dtach -a holly.sc/logger.dtach -z
+
+NON tmp>$ ps afwux | grep -i $p1/logger.dtach | grep -v grep | awk '{print $2}'
+10061
+
+NON tmp>$ ps afwux | grep -i $p1/logger.dtach | grep -v grep | awk '{print $2}' | xargs kill
+NON tmp>$ dtach -A ../`basename $(pwd)`/$p1/logger.dtach -z bash 
+dtach: ../tmp/holly.sc/logger.dtach: No such file or directory
+
+NON cr15282-20-digits>$ ps afwux | egrep $(echo `pgrep -f script` | tr ' ' "|")
+ttt       9916  0.0  0.2  70776  1512 pts/39   S+   11:26   0:03  |           \_ less transcript25097.log
+ttt       9895  0.1  0.3  70912  1528 pts/30   S+   11:23   0:07              \_ less transcript25110.log
+kraljo   17085  0.0  0.1  70072   792 pts/15   S+   Sep02   0:00  |   \_ tail -f Log/transcript10105.log
+tester    8688  0.0  0.1  70128   520 pts/50   S+   Jun18   0:00      \_ script -af switch-of-indi.script.con.log
+tester    8689  0.0  0.0  70136   408 pts/50   S+   Jun18   0:02          \_ script -af switch-of-indi.script.con.log
+kraljo   21286  0.0  0.1  70128   896 pts/27   S+   Aug30   0:00      \_ script -f 1.fifo
+kraljo   21287  0.0  0.1  70136   608 pts/27   S+   Aug30   0:00          \_ script -f 1.fifo
+kraljo   27667  0.0  0.1  70128   896 pts/29   S+   Aug30   0:00      \_ script -f 09-08-28.fifo
+kraljo   27668  0.0  0.1  70136   608 pts/29   S+   Aug30   0:11          \_ script -f 09-08-28.fifo
+kraljo   19207  0.0  0.1  70128   896 pts/33   S+   Aug31   0:00      \_ script -f logger.fifo
+kraljo   19208  0.0  0.1  70136   608 pts/33   S+   Aug31   0:00          \_ script -f logger.fifo
+
+NON cr15282-20-digits>$ pkill -f 'script -f 09-08-28.fifo'
+NON cr15282-20-digits>$ dtach -A ../`basename $(pwd)`/$p1/logger.dtach -z bash
+
+logger:holly.sc>$ rm 09-08-28.fifo
+logger:holly.sc>$ mkfifo logger.fifo
+logger:holly.sc>$ cat logger.fifo | ruby ~/text/log/log-timestamp.rb | while read line; do echo $line >> `date -Im | cut -dT -f1 | cut -c3-`.log; done &
+/home/kraljo/text/log/log-timestamp.rb: <&1
+
+logger:holly.sc>$ bg
+[2]+ cat logger.fifo | ruby ~/text/log/log-timestamp.rb | while read line; do
+    echo $line >>`date -Im | cut -dT -f1 | cut -c3-`.log;
+done &
+
+logger:holly.sc>$ script -f logger.fifo
+Script started, file is logger.fifo
+
+noD:holly.sc>$ TERM=ansi; PS1='noD:\W>$ '; stty cols 999
+noD:holly.sc>$ dtach -a 09-08-28.dtach -z
+
+
+status: TTT>  Syntax error in command ><
+status: TTT>  Use >help< for help or >exit< for exit.
+status: 
+status: TTT> Enter command:
+
+[detached]
+
+
+NON cr15282-20-digits>$ p1=titan.sc
+
+NON cr15282-20-digits>$ kill 10260
+NON cr15282-20-digits>$ kill 19207
+NON cr15282-20-digits>$ dtach -A ../`basename $(pwd)`/$p1/logger.dtach -z bash
+logger:titan.sc>$ jobs
+
+logger:titan.sc>$ cat logger.fifo | ruby ~/text/log/log-timestamp.rb | while read line; do
+>     echo $line >>`date -Im | cut -dT -f1 | cut -c3-`.log;
+> done &
+[1] 4572
+ /home/kraljo/text/log/log-timestamp.rb: <&1
+
+logger:titan.sc>$ script -f ../`basename $(pwd)`/logger.fifo
+Script started, file is ../titan.sc/logger.fifo
+
+noD:titan.sc>$ TERM=ansi; PS1='noD:\W>$ '; stty cols 999
+noD:titan.sc>$ dtach -a 09-08-31.dtach -z
+
+titan.sc>$ date -Is
+2009-09-03T15:22:17+0200
+
+titan.sc>$ exit
+exit
+                                                                                                                    
+[EOF - dtach terminating]
+noD:titan.sc>$ dtach -a 09-09-01.dtach -z
+
+status: TTT>  Syntax error in command ><
+status: TTT>  Use >help< for help or >exit< for exit.
+status: 
+status: TTT> Enter command:
+                                                                                                                    
+[detached]
+
+NON cr15282-20-digits>$ for i in 16948 16949 19208 19209; do echo $i; kill $i; done
+16948
+16949
+19208
+19209
+-bash: kill: (19209) - No such process
+
+NON cr15282-20-digits>$ dtach -A ../`basename $(pwd)`/$p1/logger.dtach -z bash                                      
+
+logger:titan.sc>$ jobs
+[1]+  Done                    cat logger.fifo | ruby ~/text/log/log-timestamp.rb | while read line; do
+    echo $line >>`date -Im | cut -dT -f1 | cut -c3-`.log;
+done
+
+logger:titan.sc>$ fgrep '..' ~/text/log/log-timestamp.rb
+def t; t = Time.now; "#{t .strftime %q{%Y-%m-%d %H:%M:%S}}.#{t.usec.to_s[0..2]}" end
+# cat logger.fifo | ruby ../log-timestamp.rb | while read line; do echo $line | cat -t; done &
+
+logger:titan.sc>$ while true; do echo logger: restarting at: `date -Is`; cat logger.fifo | ruby ~/text/log/log-timestamp.rb >> `date -Im | cut -dT -f1 | cut -c3-`.log; done &
+[1] 27213
+ logger: restarting at: 2009-09-03T15:47:49+0200
+/home/kraljo/text/log/log-timestamp.rb: <&1
+
+logger:titan.sc>$ script -f ../`basename $(pwd)`/logger.fifo
+Script started, file is ../titan.sc/logger.fifo
+
+kraljo@jubiler:~/small-projects/cr15282-20-digits/titan.sc$ TERM=ansi; PS1='noD:\W>$ '; stty cols 999
+noD:titan.sc>$ dtach -a 09-09-01.dtach -z
+                                                                                                                    
+[detached]
+
+NON cr15282-20-digits>$ dtach -a titan.sc/09-09-01.dtach -za
+dtach: Invalid option '-a'
+Try 'dtach --help' for more information.
+NON cr15282-20-digits>$ dtach -a titan.sc/09-09-01.dtach -z
+
+titan.sc>$ exit
+                                                                                                                    
+[EOF - dtach terminating]
+
+NON cr15282-20-digits>$ ps afwux
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root         1  0.0  0.1   2664   520 ?        Ss    2008   1:00 init [2]         
+root         2  0.0  0.0      0     0 ?        SN    2008   0:05 [ksoftirqd/0]
+root         3  0.0  0.0      0     0 ?        S     2008   0:00 [watchdog/0]
+root         4  0.0  0.0      0     0 ?        S<    2008   0:23 [events/0]
+root         5  0.0  0.0      0     0 ?        S<    2008   0:00 [khelper]
+root         6  0.0  0.0      0     0 ?        S<    2008   0:00 [kthread]
+root        17  0.0  0.0      0     0 ?        S<    2008   0:22  \_ [kblockd/0]
+root        18  0.0  0.0      0     0 ?        S<    2008   0:00  \_ [kseriod]
+root        52  0.0  0.0      0     0 ?        S<    2008  10:04  \_ [kswapd0]
+root        53  0.0  0.0      0     0 ?        S<    2008   0:00  \_ [aio/0]
+root       459  0.0  0.0      0     0 ?        S<    2008   0:00  \_ [khubd]
+root       506  0.0  0.0      0     0 ?        S<    2008   0:00  \_ [scsi_eh_0]
+root       785  0.0  0.0      0     0 ?        S<    2008  57:55  \_ [kjournald]
+root      1209  0.0  0.0      0     0 ?        S<    2008   0:00  \_ [kpsmoused]
+root      1360  0.0  0.0      0     0 ?        S<    2008   0:00  \_ [kmirrord]
+root      1394  0.0  0.0      0     0 ?        S<    2008   0:25  \_ [kjournald]
+root     15313  0.0  0.0      0     0 ?        S<   Feb10   0:00  \_ [nfsd4]
+root     15323  0.0  0.0      0     0 ?        S<   Feb10   0:00  \_ [rpciod/0]
+root      6610  0.0  0.0      0     0 ?        S    Jul16   0:26  \_ [pdflush]
+root      2170  0.0  0.0      0     0 ?        S    Aug25   0:07  \_ [pdflush]
+root       962  0.0  0.0   3360     8 ?        S<s   2008   0:00 udevd --daemon
+root      1647  0.0  0.1   2112   528 ?        Ss    2008  39:03 /sbin/syslogd
+root      1653  0.0  0.0   1984   272 ?        Ss    2008   0:00 /sbin/klogd -x
+statd     1801  0.0  0.0   2408     8 ?        Ss    2008   0:00 /sbin/rpc.statd
+daemon    1811  0.0  0.0   2696   104 ?        Ss    2008   0:00 /usr/sbin/atd
+root      1818  0.0  0.0   3312   328 ?        Ss    2008   0:05 /usr/sbin/cron
+upmon     1853  0.0  0.5   9208  3024 ?        S     2008  13:33 /usr/bin/perl /opt/upmon/upmoncc.pl LINUX /opt/upmon
+upmon     1856  0.0  0.0   9696     8 ?        S     2008   0:03 /usr/bin/perl /opt/upmon/upmoncs.pl LINUX /opt/upmon
+postgres  9416  0.0  0.1  89720   528 ?        S     2008   1:25 /usr/lib/postgresql/7.4/bin/postmaster -D /var/lib/postgresql/7.4/main
+postgres  9419  0.0  0.2  79880  1056 ?        S     2008   0:57  \_ postgres: stats buffer process                                        
+postgres  9420  0.0  0.0  79032   384 ?        S     2008   0:47      \_ postgres: stats collector process                                     
+postgres  9432  0.0  0.2   7568  1080 ?        Ss    2008  12:03 /usr/lib/postgresql/7.4/bin/pg_autovacuum -p 5432 -H /var/run/postgresql -L /var/log/postgresql/pg_autovacuum-7.4-main.log
+100       9524  0.0  0.0   8032   176 ?        Ss    2008   0:02 /usr/sbin/exim4 -bd -q30m
+root      9577  0.0  0.0   7800   456 ?        Ss    2008   9:33 /usr/sbin/sshd
+root     31388  0.0  0.0      0     0 ?        Ds   Jun15   0:00  \_ [sshd]
+kraljo   31390  0.0  0.0      0     0 ?        Z    Jun15   0:23  |   \_ [sshd] <defunct>
+root      4945  0.0  0.6  11120  3560 ?        Ss   Aug26   0:00  \_ sshd: kraljo [priv]
+kraljo    4947  0.3  0.7  12672  3920 ?        S    Aug26  35:52  |   \_ sshd: kraljo@notty
+kraljo    4948  0.0  0.6   7824  3480 ?        Ss   Aug26   4:33  |       \_ /usr/lib/openssh/sftp-server
+root      8457  0.0  0.7  11120  3576 ?        Ss   Aug27   0:06  \_ sshd: kraljo [priv]
+kraljo    8459  0.0  0.5  11120  2600 ?        S    Aug27   0:29  |   \_ sshd: kraljo@pts/32
+kraljo    8460  0.0  0.7  73864  3896 pts/32   Ss   Aug27   0:00  |       \_ -bash
+kraljo    8479  0.0  0.3  72088  1680 pts/32   S+   Aug27   0:00  |           \_ screen -e ^~~ -x
+root     11121  0.0  0.7  11120  3576 ?        Ss   Aug28   0:06  \_ sshd: tester [priv]
+tester   11123  0.0  0.5  11120  2600 ?        S    Aug28   0:06  |   \_ sshd: tester@pts/23
+tester   11124  0.0  0.7  73864  3896 pts/23   Ss   Aug28   0:00  |       \_ -bash
+tester   11144  0.0  0.3  72088  1680 pts/23   S+   Aug28   0:00  |           \_ screen -e ^~~ -x 8667.pts-42.jubiler
+root     14025  0.0  0.7  11120  3608 ?        Ss   Aug28   0:00  \_ sshd: tester [priv]
+tester   14027  0.0  0.4  11120  2448 ?        S    Aug28   0:00  |   \_ sshd: tester@pts/0
+tester   14028  0.0  0.4   4416  2336 pts/0    Ss+  Aug28   0:00  |       \_ /bin/sh
+root     14057  0.0  0.7  11120  3608 ?        Ss   Aug28   0:00  \_ sshd: kraljo [priv]
+kraljo   14059  0.0  0.4  11256  2456 ?        S    Aug28   0:01  |   \_ sshd: kraljo@pts/4
+kraljo   14060  0.0  0.7  73856  3992 pts/4    Ss   Aug28   0:02  |       \_ -bash
+kraljo   12217  0.0  0.0   1912   488 pts/4    S+   Sep01   0:00  |           \_ dtach -A /home/kraljo/tmp/2.dtach -z bash
+root     14289  0.0  0.7  11120  3608 ?        Ss   Aug28   0:00  \_ sshd: kraljo [priv]
+kraljo   14291  0.0  0.4  11256  2472 ?        S    Aug28   0:06  |   \_ sshd: kraljo@pts/5
+kraljo   14292  0.0  0.7  73856  3960 pts/5    Ss   Aug28   0:01  |       \_ -bash
+kraljo    6798  0.0  0.3  71272  1544 pts/5    R+   16:52   0:00  |           \_ ps afwux
+root     21434  0.0  0.7  11120  3608 ?        Ss   Aug30   0:00  \_ sshd: kraljo [priv]
+kraljo   21436  0.0  0.5  11712  2968 ?        S    Aug30   0:02  |   \_ sshd: kraljo@pts/28
+kraljo   21437  0.0  0.5   4728  2752 pts/28   Ss+  Aug30   0:02  |       \_ /bin/sh
+root     22764  0.0  0.7  11120  3608 ?        Ss   Aug30   0:00  \_ sshd: kraljo [priv]
+kraljo   22766  0.0  0.4  11256  2464 ?        S    Aug30   0:43  |   \_ sshd: kraljo@pts/16
+kraljo   22767  0.0  0.7  73856  3920 pts/16   Ss   Aug30   0:00  |       \_ -bash
+kraljo    9633  0.0  0.0   1912   488 pts/16   S+   Sep02   0:01  |           \_ dtach -a ../cr15282-20-digits/holly.sc/09-08-28.dtach -z
+root     24374  0.0  0.7  11120  3608 ?        Ss   Aug31   0:00  \_ sshd: kraljo [priv]
+kraljo   24376  0.0  0.4  11120  2440 ?        S    Aug31   0:00  |   \_ sshd: kraljo@pts/34
+kraljo   24377  0.0  0.7  73856  3864 pts/34   Ss   Aug31   0:00  |       \_ -bash
+kraljo   24396  0.0  0.0   1912   504 pts/34   S+   Aug31   0:00  |           \_ dtach -A /home/kraljo/tmp/tr.dtach -z bash
+kraljo   24397  0.0  0.1   2048   512 ?        Ss   Aug31   0:00  |               \_ dtach -A /home/kraljo/tmp/tr.dtach -z bash
+kraljo   24398  0.0  0.7  73856  3896 pts/35   Ss   Aug31   0:00  |                   \_ bash
+kraljo   24416  0.0  0.4   5008  2192 pts/35   T    Aug31   0:00  |                       \_ telnet holly2
+kraljo   24540  0.0  0.4   5008  2192 pts/35   S+   Aug31   0:00  |                       \_ telnet titan1
+root     14349  0.0  0.7  11120  3608 ?        Ss   Aug31   0:00  \_ sshd: kraljo [priv]
+kraljo   14366  0.0  0.4  11120  2440 ?        S    Aug31   0:03  |   \_ sshd: kraljo@pts/31
+kraljo   14367  0.0  0.7  73856  3968 pts/31   Ss   Aug31   0:00  |       \_ -bash
+kraljo    1851  0.0  0.0   1912   488 pts/31   S+   16:51   0:00  |           \_ dtach -a ../cr15282-20-digits/titan.sc/logger.dtach -z
+root     28118  0.0  0.7  11120  3584 ?        Ss   Sep01   0:02  \_ sshd: ttt [priv] 
+ttt      28120  0.0  0.5  11256  2576 ?        S    Sep01   0:03  |   \_ sshd: ttt@pts/39 
+ttt      28121  0.0  0.7  73864  3896 pts/39   Ss+  Sep01   0:00  |       \_ -bash
+root     12169  0.0  0.6  11120  3536 ?        Ss   Sep01   0:00  \_ sshd: tester [priv]
+tester   12171  0.0  0.5  11600  2696 ?        S    Sep01   0:01  |   \_ sshd: tester@notty
+tester   12172  0.0  0.1  70040   800 ?        Ss   Sep01   0:00  |       \_ tee -a pavel.hlr.log
+root     27912  0.0  0.7  11120  3616 ?        Ss   Sep02   0:01  \_ sshd: schmidtj [priv]
+schmidtj 27929  0.0  0.5  11120  2552 ?        S    Sep02   0:05  |   \_ sshd: schmidtj@pts/40
+schmidtj 27930  0.0  0.7  73864  3968 pts/40   Ss   Sep02   0:00  |       \_ -bash
+schmidtj  7781  0.0  2.1 105928 10832 pts/40   T    Sep02   0:13  |           \_ vi CL-CR13520.tcl
+schmidtj  7782  0.0  2.1 105928 10832 pts/40   S    Sep02   0:00  |           |   \_ vi CL-CR13520.tcl
+schmidtj  7783  0.0  2.1 105928 10832 pts/40   T    Sep02   0:00  |           |       \_ vi CL-CR13520.tcl
+schmidtj  5747  0.0  2.0 105712 10544 pts/40   T    Sep02   0:00  |           \_ vi TEST.MOJE
+schmidtj  5748  0.0  2.0 105712 10544 pts/40   S    Sep02   0:00  |           |   \_ vi TEST.MOJE
+schmidtj  5749  0.0  2.0 105712 10544 pts/40   T    Sep02   0:00  |           |       \_ vi TEST.MOJE
+schmidtj 10739  0.0  2.0 105792 10624 pts/40   T    14:26   0:01  |           \_ vi CL-53311.tcl
+schmidtj 10740  0.0  2.0 105792 10624 pts/40   S    14:26   0:00  |           |   \_ vi CL-53311.tcl
+schmidtj 10741  0.0  2.0 105792 10624 pts/40   T    14:26   0:00  |           |       \_ vi CL-53311.tcl
+schmidtj 27069  0.2  2.0 105872 10576 pts/40   S+   15:38   0:09  |           \_ vi CL-drastak_before_review.tcl
+schmidtj 27070  0.0  2.0 105872 10576 pts/40   S+   15:38   0:00  |               \_ vi CL-drastak_before_review.tcl
+schmidtj 27071  0.0  2.0 105872 10576 pts/40   S+   15:38   0:00  |                   \_ vi CL-drastak_before_review.tcl
+root     17696  0.0  0.7  11120  3616 ?        Ss   Sep02   0:01  \_ sshd: schmidtj [priv]
+schmidtj 17707  0.0  0.5  11120  2552 ?        S    Sep02   0:19  |   \_ sshd: schmidtj@pts/43
+schmidtj 17711  0.0  0.7  73864  3960 pts/43   Ss+  Sep02   0:00  |       \_ -bash
+root      5248  0.0  0.7  11120  3568 ?        Ss   Sep02   0:01  \_ sshd: schmidtj [priv]
+schmidtj  5250  0.0  0.5  11592  2768 ?        S    Sep02   0:01  |   \_ sshd: schmidtj@notty
+schmidtj  5251  0.0  0.4   6672  2304 ?        Ss   Sep02   0:00  |       \_ /usr/lib/openssh/sftp-server
+root      9824  0.0  0.7  11120  3584 ?        Ss   11:08   0:00  \_ sshd: ttt [priv] 
+ttt       9826  0.0  0.5  11256  2576 ?        S    11:08   0:00      \_ sshd: ttt@pts/30 
+ttt       9827  0.0  0.7  73864  3896 pts/30   Ss+  11:08   0:00          \_ -bash
+root     16238  0.0  0.1  71656   528 ?        S     2008   0:00 /bin/sh /usr/bin/mysqld_safe
+mysql    16275  0.0  0.6  87344  3440 ?        S     2008   0:00  \_ /usr/sbin/mysqld --basedir=/usr --datadir=/var/lib/mysql --user=mysql --pid-file=/var/run/mysqld/mysqld.pid --skip-external-locking --port=3306 --socket=/var/run/mysqld/mysqld.sock
+mysql    16277  0.0  0.6  87344  3440 ?        S     2008   0:00  |   \_ /usr/sbin/mysqld --basedir=/usr --datadir=/var/lib/mysql --user=mysql --pid-file=/var/run/mysqld/mysqld.pid --skip-external-locking --port=3306 --socket=/var/run/mysqld/mysqld.sock
+mysql    16278  0.0  0.6  87344  3440 ?        S     2008   0:00  |       \_ /usr/sbin/mysqld --basedir=/usr --datadir=/var/lib/mysql --user=mysql --pid-file=/var/run/mysqld/mysqld.pid --skip-external-locking --port=3306 --socket=/var/run/mysqld/mysqld.sock
+mysql    16279  0.0  0.6  87344  3440 ?        S     2008   0:00  |       \_ /usr/sbin/mysqld --basedir=/usr --datadir=/var/lib/mysql --user=mysql --pid-file=/var/run/mysqld/mysqld.pid --skip-external-locking --port=3306 --socket=/var/run/mysqld/mysqld.sock
+mysql    16280  0.0  0.6  87344  3440 ?        S     2008   0:00  |       \_ /usr/sbin/mysqld --basedir=/usr --datadir=/var/lib/mysql --user=mysql --pid-file=/var/run/mysqld/mysqld.pid --skip-external-locking --port=3306 --socket=/var/run/mysqld/mysqld.sock
+mysql    16281  0.0  0.6  87344  3440 ?        S     2008   0:00  |       \_ /usr/sbin/mysqld --basedir=/usr --datadir=/var/lib/mysql --user=mysql --pid-file=/var/run/mysqld/mysqld.pid --skip-external-locking --port=3306 --socket=/var/run/mysqld/mysqld.sock
+mysql    16283  0.0  0.6  87344  3440 ?        S     2008  29:27  |       \_ /usr/sbin/mysqld --basedir=/usr --datadir=/var/lib/mysql --user=mysql --pid-file=/var/run/mysqld/mysqld.pid --skip-external-locking --port=3306 --socket=/var/run/mysqld/mysqld.sock
+mysql    16284  0.0  0.6  87344  3440 ?        S     2008 209:45  |       \_ /usr/sbin/mysqld --basedir=/usr --datadir=/var/lib/mysql --user=mysql --pid-file=/var/run/mysqld/mysqld.pid --skip-external-locking --port=3306 --socket=/var/run/mysqld/mysqld.sock
+mysql    16285  0.0  0.6  87344  3440 ?        S     2008   0:00  |       \_ /usr/sbin/mysqld --basedir=/usr --datadir=/var/lib/mysql --user=mysql --pid-file=/var/run/mysqld/mysqld.pid --skip-external-locking --port=3306 --socket=/var/run/mysqld/mysqld.sock
+mysql    16286  0.0  0.6  87344  3440 ?        S     2008   0:00  |       \_ /usr/sbin/mysqld --basedir=/usr --datadir=/var/lib/mysql --user=mysql --pid-file=/var/run/mysqld/mysqld.pid --skip-external-locking --port=3306 --socket=/var/run/mysqld/mysqld.sock
+mysql    16289  0.0  0.6  87344  3440 ?        S     2008   0:05  |       \_ /usr/sbin/mysqld --basedir=/usr --datadir=/var/lib/mysql --user=mysql --pid-file=/var/run/mysqld/mysqld.pid --skip-external-locking --port=3306 --socket=/var/run/mysqld/mysqld.sock
+root     16276  0.0  0.0  70040   464 ?        S     2008   0:00  \_ logger -p daemon.err -t mysqld_safe -i -t mysqld
+root      4359  0.0  0.2  15920  1080 ?        Ss   Jan28   0:09 /usr/bin/cvslockd
+root      4360  0.0  0.2  15920  1080 ?        S    Jan28   0:13  \_ /usr/bin/cvslockd
+root      4361  0.0  0.2  15920  1080 ?        S    Jan28  13:23      \_ /usr/bin/cvslockd
+tester   23222  0.0  0.1  72504   640 ?        Ss   Jan29   5:28 SCREEN
+tester   19747  0.0  0.1  73856   808 pts/24   Ss+  Jan30   0:00  \_ /bin/bash
+tester   16649  0.0  0.1  73928   808 pts/17   Ss+  Feb13   0:00  \_ /bin/bash
+tester   19177  0.0  0.0   6256   216 ?        Ss   Jan30   0:00 ssh-agent
+root     14963  0.0  0.0   6264   352 ?        Ss   Feb10   0:01 /usr/sbin/rpc.idmapd
+root     15314  0.0  0.0      0     0 ?        S    Feb10   0:00 [nfsd]
+root     15315  0.0  0.0      0     0 ?        S    Feb10   0:00 [nfsd]
+root     15316  0.0  0.0      0     0 ?        S    Feb10   0:00 [nfsd]
+root     15317  0.0  0.0      0     0 ?        S    Feb10   0:00 [nfsd]
+root     15318  0.0  0.0      0     0 ?        S    Feb10   0:00 [nfsd]
+root     15319  0.0  0.0      0     0 ?        S    Feb10   0:00 [nfsd]
+root     15320  0.0  0.0      0     0 ?        S    Feb10   0:00 [nfsd]
+root     15321  0.0  0.0      0     0 ?        S    Feb10   0:00 [nfsd]
+root     15322  0.0  0.0      0     0 ?        S    Feb10   0:00 [lockd]
+root     15327  0.0  0.0   2472   128 ?        Ss   Feb10   0:00 /usr/sbin/rpc.mountd
+root      3929  0.0  0.0   3632   504 ?        Ss   Feb17   0:00 /usr/sbin/xinetd -pidfile /var/run/xinetd.pid -stayalive
+ntpd      5399  0.0  0.1   4720   728 ?        S    Feb18   1:19 /usr/sbin/ntpd -s
+root      5400  0.0  0.1   4976   544 ?        Ss   Feb18   0:15 /usr/sbin/ntpd -s
+cyrus    12222  0.0  0.2  11328  1096 ?        Ss   Mar02   5:22 /usr/sbin/cyrmaster -d
+cyrus    12230  0.0  0.0  36272   456 ?        S    Mar02   0:00  \_ notifyd
+tester    7088  0.0  0.0   2048   296 ?        Ss   Mar05   0:00 dtach -c ./logger.dtach -z bash
+tester    7089  0.0  0.1  73848   720 pts/25   Ss+  Mar05   0:00  \_ bash
+root     11606  0.0  0.0   1984   440 ttyS0    Ss+  Mar22   0:00 /sbin/getty -L ttyS0 9600 vt102
+devel    26786  0.0  8.9 131200 45624 ?        S    Jun04   0:00 /usr/bin/python2.4 /usr/bin/hg serve -A /home/devel/logs/hg_access.log -E /home/devel/logs/hg_error.log -p 1052 -d --daemon-pipefds=3,4
+devel    26789  0.0  8.9 131200 45624 ?        S    Jun04   0:00  \_ /usr/bin/python2.4 /usr/bin/hg serve -A /home/devel/logs/hg_access.log -E /home/devel/logs/hg_error.log -p 1052 -d --daemon-pipefds=3,4
+kraljo    1080  0.0  0.7  74872  3920 ?        Ss   Jun16   5:14 SCREEN -e ^~~
+kraljo    1081  0.0  0.3  73856  1784 pts/1    Ss   Jun16   0:00  \_ /bin/bash
+kraljo   23618  0.0  0.2   2744  1288 pts/1    S+   Aug31   0:00  |   \_ rlogin holly2
+kraljo    1104  0.0  0.3  73856  1608 pts/2    Ss   Jun16   0:00  \_ /bin/bash
+kraljo   22412  0.0  0.2   2744  1288 pts/2    S+   Jul20   0:00  |   \_ rlogin holly2
+kraljo    5220  0.0  0.5  73856  2856 pts/15   Ss   Jun17   0:01  \_ /bin/bash
+kraljo   10395  0.0  0.1  70072   792 pts/15   S+   12:53   0:00  |   \_ tail -f 09-09-03.log
+kraljo    5724  0.0  0.2  73856  1472 pts/22   Ss+  Jun17   0:00  \_ /bin/bash
+kraljo    7989  0.0  0.3  73856  1704 pts/41   Ss   Jun18   0:00  \_ /bin/bash
+kraljo    9045  0.0  0.2   2744  1288 pts/41   S+   Aug27   0:00  |   \_ rlogin titan1
+kraljo   17796  0.0  0.5  73856  2688 pts/21   Ss+  Jun22   0:00  \_ /bin/bash
+kraljo   19430  0.0  0.7  73856  4008 pts/11   Ss   Aug05   0:00  \_ /bin/bash
+kraljo   26801  0.0  0.1  70072   792 pts/11   S+   Aug31   0:00  |   \_ tail -f 09-08-31.log
+kraljo    2056  0.0  0.7  73856  3992 pts/13   Ss   Aug25   0:00  \_ /bin/bash
+kraljo   20189  0.0  0.1  70072   792 pts/13   S+   Sep02   0:00  |   \_ tail -f /home/tester/pavel.hlr.log
+kraljo     399  0.0  0.7  73856  3976 pts/38   Ss   Aug31   0:00  \_ /bin/bash
+kraljo   32703  0.0  0.1  70072   792 pts/38   S+   15:21   0:00      \_ tail -f 09-09-03.log
+tester    8667  0.0  0.2  72360  1320 ?        Ss   Jun18   0:51 SCREEN -e ^~~
+tester    8668  0.0  0.2  73856  1152 pts/50   Ss   Jun18   0:00  \_ /bin/bash
+tester    8688  0.0  0.1  70128   520 pts/50   S+   Jun18   0:00      \_ script -af switch-of-indi.script.con.log
+tester    8689  0.0  0.0  70136   408 pts/50   S+   Jun18   0:02          \_ script -af switch-of-indi.script.con.log
+tester    8690  0.0  0.3  73856  1680 pts/52   Ss   Jun18   0:00              \_ bash -i
+tester   11156  0.0  0.4   5000  2184 pts/52   S+   Aug28   0:00                  \_ telnet tiger1
+follnerr  9199  0.0  0.8  75008  4512 ?        Ss   Aug11   5:50 SCREEN
+follnerr  9245  0.0  0.7  73856  4000 pts/6    Ss   Aug11   0:02  \_ /bin/bash
+follnerr 15726  0.0  0.4   5000  2192 pts/6    S+   Aug19   0:00  |   \_ telnet titan2
+follnerr  9302  0.0  0.7  73856  3984 pts/7    Ss+  Aug11   0:01  \_ /bin/bash
+follnerr 12410  0.0  0.7  73856  3984 pts/9    Ss+  Aug11   0:01  \_ /bin/bash
+follnerr 25753  0.0  0.7  73856  3952 pts/10   Ss+  Aug13   0:00  \_ /bin/bash
+follnerr 26281  0.0  0.7  73856  3992 pts/12   Ss+  Aug13   0:00  \_ /bin/bash
+follnerr 30706  0.0  0.7  73856  3984 pts/18   Ss   Aug14   0:01  \_ /bin/bash
+follnerr 20117  0.0  0.2  70752  1280 pts/18   S+   Aug20   0:00  |   \_ less ../ttt/CL-cr15282.tcl
+follnerr  8155  0.0  0.7  73856  3984 pts/8    Ss+  Aug17   0:01  \_ /bin/bash
+kraljo   14117  0.0  0.1   2048   512 ?        Ss   Aug28   0:00 dtach -c /home/kraljo/tmp/2.dtach -z bash
+kraljo   14118  0.0  0.7  73856  3928 pts/3    Ss+  Aug28   0:00  \_ bash
+kraljo    6344  0.0  0.4   5008  2168 pts/3    T    Aug31   0:00      \_ telnet holly2
+kraljo   16303  0.0  0.4   5008  2184 pts/3    T    Aug31   0:00      \_ telnet -l petricekm holly2
+kraljo   23793  0.0  0.4   5008  2184 pts/3    T    Aug31   0:00      \_ telnet titan1
+root     18318  0.0  2.7  32696 13848 ?        Ss   Aug30   0:00 /usr/sbin/apache2 -k start
+www-data 18324  0.0  1.9  32840 10160 ?        S    Aug30   0:02  \_ /usr/sbin/apache2 -k start
+www-data 18325  0.0  2.0  32824 10288 ?        S    Aug30   0:00  \_ /usr/sbin/apache2 -k start
+www-data 18326  0.0  2.0  32840 10328 ?        S    Aug30   0:01  \_ /usr/sbin/apache2 -k start
+www-data 18327  0.0  2.0  32840 10384 ?        S    Aug30   0:00  \_ /usr/sbin/apache2 -k start
+www-data 18328  0.0  2.0  32832 10224 ?        S    Aug30   0:00  \_ /usr/sbin/apache2 -k start
+www-data 22792  0.0  2.0  32832 10216 ?        S    Aug31   0:00  \_ /usr/sbin/apache2 -k start
+www-data 22793  0.0  2.0  32832 10224 ?        S    Aug31   0:00  \_ /usr/sbin/apache2 -k start
+www-data 23759  0.0  1.9  32832 10160 ?        S    Aug31   0:01  \_ /usr/sbin/apache2 -k start
+www-data 23760  0.0  1.9  32832 10136 ?        S    Aug31   0:00  \_ /usr/sbin/apache2 -k start
+www-data 24655  0.0  2.0  32832 10312 ?        S    Aug31   0:00  \_ /usr/sbin/apache2 -k start
+kraljo   20011  0.0  0.1   2048   512 ?        Ss   Aug30   0:04 dtach -c 1.logger.dtach -r none -z bash
+kraljo   20012  0.0  0.7  73856  3968 pts/27   Ss   Aug30   0:00  \_ bash
+kraljo   21281  0.0  0.4  73856  2288 pts/27   S    Aug30   0:00      \_ bash
+kraljo   21282  0.0  0.1  70040   720 pts/27   S    Aug30   0:00      |   \_ cat 1.fifo
+kraljo   21283  0.0  0.5  73984  2992 pts/27   S    Aug30   0:06      |   \_ bash
+kraljo   21286  0.0  0.1  70128   896 pts/27   S+   Aug30   0:00      \_ script -f 1.fifo
+kraljo   21287  0.0  0.1  70136   608 pts/27   S+   Aug30   0:00          \_ script -f 1.fifo
+kraljo   21288  0.0  0.7  73856  3872 pts/26   Ss   Aug30   0:00              \_ bash -i
+kraljo   21308  0.0  0.0   1912   488 pts/26   S+   Aug30   0:00                  \_ dtach -a 1.dtach -r none -z
+kraljo   20512  0.0  0.1   2048   520 ?        Ss   Aug30   0:12 dtach -A 1.dtach -r none -z bash
+kraljo   20513  0.0  0.7  73856  3960 pts/14   Ss+  Aug30   0:00  \_ bash
+kraljo   23694  0.0  0.4   5008  2192 pts/14   T    Aug31   0:00      \_ telnet titan1
+kraljo   24294  0.0  0.4   5008  2192 pts/14   T    Aug31   0:00      \_ telnet holly2
+kraljo   21746  0.0  0.1   2048   512 ?        Ss   Aug30   1:28 dtach -A logger.dtach -r none -z bash
+kraljo   21747  0.0  0.7  73848  3936 pts/29   Ss   Aug30   0:00  \_ bash
+kraljo   27663  0.2  0.5  73848  2600 pts/29   R    Aug30  13:46      \_ bash
+kraljo    6797  0.0  0.1  70920   920 pts/29   R    16:52   0:00      |   \_ date -Is
+kraljo   10307  0.0  0.1  70040   720 pts/29   S    12:40   0:00      \_ cat logger.fifo
+kraljo   10308  0.0  0.5   5440  2608 pts/29   S    12:40   0:00      \_ ruby /home/kraljo/text/log/log-timestamp.rb
+kraljo   10309  0.0  0.5  73848  2728 pts/29   S    12:40   0:00      \_ bash
+kraljo   10310  0.0  0.1  70128   896 pts/29   S+   12:42   0:00      \_ script -f logger.fifo
+kraljo   10311  0.0  0.1  70136   608 pts/29   S+   12:42   0:00          \_ script -f logger.fifo
+kraljo   10312  0.0  0.7  73848  3888 pts/19   Ss   12:42   0:00              \_ bash -i
+kraljo   10347  0.0  0.0   1912   488 pts/19   S+   12:42   0:00                  \_ dtach -a 09-08-28.dtach -z
+kraljo   27708  0.0  0.1   2048   520 ?        Ss   Aug30   0:27 dtach -A 09-08-28.dtach -z bash
+kraljo   27709  0.0  0.7  73856  3936 pts/20   Ss   Aug30   0:01  \_ bash
+kraljo   10105  0.8  7.0 108840 35728 pts/20   S+   Sep02  12:28      \_ tclsh opt/ttt/Run_test.tcl -np -wp -i holly.ini -2 def2nd52.ini -B TEST.cr15282 -wa cl_lmsisdn_efsg_001
+kraljo   10106  0.0  7.0 108840 35728 pts/20   S+   Sep02   0:00          \_ tclsh opt/ttt/Run_test.tcl -np -wp -i holly.ini -2 def2nd52.ini -B TEST.cr15282 -wa cl_lmsisdn_efsg_001
+kraljo   10107  0.0  7.0 108840 35728 pts/20   S+   Sep02   0:01          |   \_ tclsh opt/ttt/Run_test.tcl -np -wp -i holly.ini -2 def2nd52.ini -B TEST.cr15282 -wa cl_lmsisdn_efsg_001
+kraljo   10302  0.0  0.4  75112  2480 pts/20   S+   Sep02   0:00          \_ /usr/bin/tclsh ./opt/ttt/telnet-cl2.tcl holly2.att.cmg.nl
+kraljo   10303  0.0  0.4  75112  2480 pts/20   S+   Sep02   0:00          |   \_ /usr/bin/tclsh ./opt/ttt/telnet-cl2.tcl holly2.att.cmg.nl
+kraljo   10304  0.0  0.4  75112  2480 pts/20   S+   Sep02   0:00          |       \_ /usr/bin/tclsh ./opt/ttt/telnet-cl2.tcl holly2.att.cmg.nl
+kraljo   10646  0.0  0.4  75112  2480 pts/20   S+   Sep02   0:00          \_ /usr/bin/tclsh ./opt/ttt/telnet-cl2.tcl holly2.att.cmg.nl
+kraljo   10647  0.0  0.4  75112  2480 pts/20   S+   Sep02   0:00          |   \_ /usr/bin/tclsh ./opt/ttt/telnet-cl2.tcl holly2.att.cmg.nl
+kraljo   10648  0.0  0.4  75112  2480 pts/20   S+   Sep02   0:00          |       \_ /usr/bin/tclsh ./opt/ttt/telnet-cl2.tcl holly2.att.cmg.nl
+kraljo   11338  0.0  0.4  75112  2480 pts/20   S+   Sep02   0:03          \_ /usr/bin/tclsh ./opt/ttt/telnet-cl2.tcl holly2.att.cmg.nl
+kraljo   11339  0.0  0.4  75112  2480 pts/20   S+   Sep02   0:00          |   \_ /usr/bin/tclsh ./opt/ttt/telnet-cl2.tcl holly2.att.cmg.nl
+kraljo   11340  0.0  0.4  75112  2480 pts/20   S+   Sep02   0:00          |       \_ /usr/bin/tclsh ./opt/ttt/telnet-cl2.tcl holly2.att.cmg.nl
+kraljo   12967  0.0  0.4  75112  2480 pts/20   S+   Sep02   0:00          \_ /usr/bin/tclsh ./opt/ttt/telnet-cl2.tcl holly2.att.cmg.nl
+kraljo   12968  0.0  0.4  75112  2480 pts/20   S+   Sep02   0:00          |   \_ /usr/bin/tclsh ./opt/ttt/telnet-cl2.tcl holly2.att.cmg.nl
+kraljo   12969  0.0  0.4  75112  2480 pts/20   S+   Sep02   0:00          |       \_ /usr/bin/tclsh ./opt/ttt/telnet-cl2.tcl holly2.att.cmg.nl
+kraljo   14744  0.0  0.4  75112  2480 pts/20   S+   Sep02   0:02          \_ /usr/bin/tclsh ./opt/ttt/telnet-cl2.tcl holly2.att.cmg.nl
+kraljo   14745  0.0  0.4  75112  2480 pts/20   S+   Sep02   0:00              \_ /usr/bin/tclsh ./opt/ttt/telnet-cl2.tcl holly2.att.cmg.nl
+kraljo   14746  0.0  0.4  75112  2480 pts/20   S+   Sep02   0:00                  \_ /usr/bin/tclsh ./opt/ttt/telnet-cl2.tcl holly2.att.cmg.nl
+kraljo   20600  0.0  0.1   2048   512 ?        Ss   Aug31   0:00 dtach -A logger.dtach -z bash
+kraljo   20601  0.0  0.7  73848  3976 pts/33   Ss   Aug31   0:00  \_ bash
+kraljo   27213  0.0  0.5  73848  2560 pts/33   S    15:47   0:00      \_ bash
+kraljo   27215  0.0  0.1  70040   720 pts/33   S    15:47   0:00      |   \_ cat logger.fifo
+kraljo   27216  0.0  0.5   5848  2960 pts/33   S    15:47   0:01      |   \_ ruby /home/kraljo/text/log/log-timestamp.rb
+kraljo    2469  0.0  0.1  70128   896 pts/33   S+   15:48   0:00      \_ script -f ../titan.sc/logger.fifo
+kraljo    2470  0.0  0.1  70136   608 pts/33   S+   15:48   0:00          \_ script -f ../titan.sc/logger.fifo
+kraljo    2471  0.0  0.7  73848  3896 pts/36   Ss+  15:48   0:00              \_ bash -i
+
+NON cr15282-20-digits>$ dtach -A ~/tmp/1.dtach -z bash                                                              
+
+
+1: cr15282-20-digits>$ 

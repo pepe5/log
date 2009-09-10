@@ -1,0 +1,5 @@
+00:00:00:00| -*- tcl -*-|
+  zzz
+11:22:33.44| set "kraljo/tiger2/pml/gsm/max_map_msisdn"| -cmd "PML> set cl gsm /max_map $new_length" -author "kraljo" -src "cl_set::123" -stack "..." -mod "eng probe"| 16
+22:33:44.55| add "kraljo/tiger2/pml/md/rel"| -cmd "PML> add cl md /rel $rel" -author "kraljo" -src "cl_add::234" -stack "..." -mod "eng probe"|
+  (a,b)
