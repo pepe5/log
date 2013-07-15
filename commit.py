@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # for correct echoing needs $> reset
 # for named sockets use script-name: dcomint
+#>! dont send reset to maestro server - conman will not work
 
 import os, pexpect, sys
 l = ' '.join (sys.argv [2:])
