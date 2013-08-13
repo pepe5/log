@@ -5,17 +5,19 @@
 
 ## usage:
 #$ T=$(basename `pwd`); H1=$host1..
-#$ echo stream..py: -timestamp: `date -Is | cut -d+ -f1` > $H1.out.log
-#$ tail -f $H1.out.log | while read L; do echo `date -Is | cut -d+ -f1`: -$H1: $L; done &
+#$ echo $T: $H1
 #$ dtach -n $T.dtach -z script -f $T.in
+#$ dtach -a $T.dtach
+#$ cat >> $T.hist
 
+#() echo stream..py: -timestamp: `date -Is | cut -d+ -f1` > $H1.out.log
 #$ > $T.in; dtach -n $H1.stream.dtach -z python -u ~/bin/stream-raw.py $T.in $H1.dtach
+#$ tail -f $H1.out.log | while read L; do echo `date -Is | cut -d+ -f1`: -$H1: $L; done &
+#|| nohup xterm -e dtach -a $H1.dtach -z &
 #$ dtach -a $H1.dtach
 #$ script -af $H1.out.log
+#$ ssh .. $H1
 
-#$ dtach -a $T.dtach
-#? stty -echo
-#$ cat >> $T.hist
 
 import os, pexpect, shlex, subprocess, sys, time
 inputter = 'tail -f %s' % sys.argv [1] #>? (!) >> stdin
