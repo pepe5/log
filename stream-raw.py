@@ -4,16 +4,17 @@
 #	http://stackoverflow.com/questions/8980050/persistent-python-subprocess
 
 ## usage:
-#$ T=$(basename `pwd`); H1=$host1..; ...
-#$ date -Is | cut -d+ -f1 > $H1.out
-#$ tail -f $H1.out | while read L; do echo `date -Is | cut -d+ -f1`: -$H1: $L; done &
+#$ T=$(basename `pwd`); H1=$host1..
+#$ echo stream..py: -timestamp: `date -Is | cut -d+ -f1` > $H1.out.log
+#$ tail -f $H1.out.log | while read L; do echo `date -Is | cut -d+ -f1`: -$H1: $L; done &
 #$ dtach -n $T.dtach -z script -f $T.in
-#$ > $T.in; python -u ~/bin/stream-raw.py $T.in $H1.dtach
 
+#$ > $T.in; dtach -n $H1.stream.dtach -z python -u ~/bin/stream-raw.py $T.in $H1.dtach
 #$ dtach -a $H1.dtach
-#$ script -af $H1.out
+#$ script -af $H1.out.log
 
 #$ dtach -a $T.dtach
+#? stty -echo
 #$ cat >> $T.hist
 
 import os, pexpect, shlex, subprocess, sys, time
