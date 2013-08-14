@@ -6,7 +6,7 @@
 
 import os, pexpect, sys, time
 # dtach='dtach -A %s/tmp/\%s.dtach -z bash' % (os.environ['HOME'], sys.argv [1])
-script='script -af %s/tmp/%s.script' % (os.environ['HOME'], sys.argv [1])
+script='script -af %s.script' % sys.argv [1]
 print '%pcomint> script: ' + script
 p = pexpect.spawn (script)
 while 1:

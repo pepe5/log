@@ -1,22 +1,23 @@
 #!/usr/bin/python
-#>! http://stackoverflow.com/questions/3670323/setting-smaller-buffer-size-for-sys-stdin
-#>? use p.send (), and for reading tail subprocess.communicate ()
-#	http://stackoverflow.com/questions/8980050/persistent-python-subprocess
+## TODO
+#>! open io .dtach pipe outside of stream-raw.py -> you will be able to stop io w/o stopping session .dtach
 
 ## usage:
-#$ T=$(basename `pwd`); H1=$host1..
-#$ echo $T: $H1
+#$ T=$(basename `pwd`); H=$host1..
+#$ echo $T: $H
 #$ dtach -n $T.dtach -z script -f $T.in
+#$ chmod -v 600 $T.in
 #$ dtach -a $T.dtach
 #$ cat >> $T.hist
+#() nohup xterm -T $T -e dtach -a $T.dtach -z &
 
-#() echo stream..py: -timestamp: `date -Is | cut -d+ -f1` > $H1.out.log
-#$ > $T.in; dtach -n $H1.stream.dtach -z python -u ~/bin/stream-raw.py $T.in $H1.dtach
-#$ tail -f $H1.out.log | while read L; do echo `date -Is | cut -d+ -f1`: -$H1: $L; done &
-#|| nohup xterm -e dtach -a $H1.dtach -z &
-#$ dtach -a $H1.dtach
-#$ script -af $H1.out.log
-#$ ssh .. $H1
+#() echo stream..py: -timestamp: `date -Is | cut -d+ -f1` > $H.out.log
+#$ > $T.in; dtach -n $H.stream.dtach -z python -u ~/bin/stream-raw.py $T.in $H.dtach
+#$ nohup xterm -xrm XTerm*ScrollBar:false -T $T:$H -e dtach -a $H.dtach -z &
+#|| tail -f $H.out.log | while read L; do echo `date -Is | cut -d+ -f1`: -$H: $L; done &
+#$ dtach -a $H.dtach
+#$ script -af $H.out.log
+#$ ssh .. $H
 
 
 import os, pexpect, shlex, subprocess, sys, time
