@@ -3,22 +3,26 @@
 #>! open io .dtach pipe outside of stream-raw.py -> you will be able to stop io w/o stopping session .dtach
 
 ## usage:
-#$ T=$(basename `pwd`); H=$host1..
-#$ echo $T: $H
+#$ T=$(basename `pwd`)
 #$ dtach -n $T.dtach -z script -f $T.in
 #$ chmod -v 600 $T.in
 #$ dtach -a $T.dtach
 #$ cat >> $T.hist
 #() nohup xterm -T $T -e dtach -a $T.dtach -z &
 
-#() echo stream..py: -timestamp: `date -Is | cut -d+ -f1` > $H.out.log
-#$ > $T.in; dtach -n $H.stream.dtach -z python -u ~/bin/stream-raw.py $T.in $H.dtach
-#$ nohup xterm -xrm XTerm*ScrollBar:false -T $T:$H -e dtach -a $H.dtach -z &
-#|| tail -f $H.out.log | while read L; do echo `date -Is | cut -d+ -f1`: -$H: $L; done &
-#$ dtach -a $H.dtach
-#$ script -af $H.out.log
-#$ ssh .. $H
+#$ for H in host1 host2 ..; do
+# T=$(basename `pwd`); echo -$T:$H
+# > $T.in; dtach -n $H.stream.dtach -z python -u ~/bin/stream-raw.py $T.in $H.dtach
+# sleep 1; nohup xterm -xrm XTerm*ScrollBar:false -T $T:$H -e dtach -a $H.dtach -z &
+# sleep 1; commit.py $H script -af $H.out.log
+# sleep 1; commit.py $H ". lk; slsssh root@$H"
+# done
 
+#() echo stream..py: -timestamp: `date -Is | cut -d+ -f1` > $H.out.log
+#|| tail -f $H.out.log | while read L; do echo `date -Is | cut -d+ -f1`: -$H: $L; done &
+#() dtach -a $H.dtach
+#? kill -INT `pgrep -f '^python.*$H'`
+#$ kill -INT `pgrep -f 'dtach -n $H'`
 
 import os, pexpect, shlex, subprocess, sys, time
 inputter = 'tail -f %s' % sys.argv [1] #>? (!) >> stdin
