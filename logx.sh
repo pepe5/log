@@ -7,7 +7,7 @@ echo -$T:$H
 if ! [ -f $T.dtach ]; then
     dtach -n $T.dtach -z script -f $T.in; chmod -v 600 $T.in
     sleep 1; commit.py $T "reset; cat >> $T.hist"
-    #>? sleep 1; commit.py $T script -af $T.in
+    sleep 4 #>? ; commit.py $T script -af $T.in
 fi
 
 > $T.in; dtach -n $H.stream.dtach -z stream-raw.py $T.in $H.dtach
